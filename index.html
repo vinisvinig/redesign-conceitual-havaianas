@@ -383,7 +383,9 @@ function colorsTo(c, at, dur=.8){
 document.querySelectorAll(".beat h2").forEach(h=>{
   h.innerHTML = h.innerHTML.split(/<br\s*\/?>/).map(t=>`<span class="ln"><span>${t.trim()}</span></span>`).join("");
 });
+const STOPS=[]; // paradas do scroll: o meio de cada texto, já entrado e parado
 function showBeat(k, at, hold=2.2){
+  STOPS.push(at + 1.1 + Math.max(0,hold-.4)*.35);
   const el = beat(k), lines = el.querySelectorAll(".ln > span"), rest = el.querySelectorAll(".k, p, .num");
   tl.set(el,{autoAlpha:1},at)
     .fromTo(lines,{yPercent:115,rotate:4},{yPercent:0,rotate:0,duration:.8,stagger:.14,ease:"power4.out"},at)
@@ -504,13 +506,59 @@ tl.to({}, {duration:.01}, 6*L);
 
 const st = ScrollTrigger.create({
   trigger:"#chapters", start:"top top", end:"bottom bottom",
-  animation:tl, scrub:.7,
+  animation:tl, scrub:1,
   onUpdate:self=>{
     const idx = Math.min(C.length-1,Math.floor(self.progress*C.length));
     rail.classList.toggle("on", self.progress>0 && self.progress<1);
     railBtns.forEach((b,j)=>b.classList.toggle("act",j===idx));
   },
 });
+
+/* ---------- scroll em passos ----------
+   Dentro da história o scroll não "arrasta" a animação: cada gesto claro (uma volta da roda, um swipe, seta/espaço)
+   leva até a próxima parada e ela fica fixa. Toques pequenos são ignorados e a inércia do trackpad é engolida. */
+const stepper = (()=>{
+  const TT = tl.duration();
+  const stopsY = ()=>{
+    const span = st.end - st.start, fin = document.getElementById("finale");
+    return [0, ...STOPS.slice().sort((a,b)=>a-b).map(t=>Math.round(st.start + t/TT*span)), Math.round(fin.offsetTop)];
+  };
+  let acc=0, last=0, busy=false, tw=null;
+  const proxy={y:0};
+  const zoneEnd = ()=>stopsY().at(-1);
+  // ativo do topo até o começo do final; no final, só o gesto para cima volta para a história
+  const active = dir => { const y=scrollY, e=zoneEnd(); return y < e-2 || (dir<0 && y < e+2); };
+  function release(){ if(performance.now()-last > 260) busy=false; else setTimeout(release, 80); }
+  function go(dir){
+    const ys=stopsY(), y=scrollY;
+    const target = dir>0 ? ys.find(v=>v>y+4) : [...ys].reverse().find(v=>v<y-4);
+    if(target===undefined) return;
+    busy=true; proxy.y=y; tw && tw.kill();
+    const dist=Math.abs(target-y)/innerHeight;
+    tw=gsap.to(proxy,{y:target, duration:Math.min(1.6,.75+dist*.18), ease:"power2.inOut",
+      onUpdate:()=>window.scrollTo(0,proxy.y), onComplete:()=>{ last=Math.max(last,performance.now()-120); release(); }});
+  }
+  addEventListener("wheel", e=>{
+    const dir=Math.sign(e.deltaY); if(!dir || !active(dir)) return;
+    e.preventDefault();
+    const now=performance.now(); if(now-last>240) acc=0; last=now;
+    if(busy) return;                                   // engole a inércia enquanto anda
+    acc += e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?innerHeight:1);
+    if(Math.abs(acc) >= 50){ acc=0; go(dir); }
+  }, {passive:false});
+  let ty=null;
+  addEventListener("touchstart", e=>{ ty=e.touches[0].clientY; }, {passive:true});
+  addEventListener("touchmove", e=>{ if(ty===null) return; const dy=ty-e.touches[0].clientY; if(active(Math.sign(dy)||1)) e.preventDefault(); }, {passive:false});
+  addEventListener("touchend", e=>{ if(ty===null) return; const dy=ty-(e.changedTouches[0]||{clientY:ty}).clientY; ty=null;
+    if(Math.abs(dy)>45 && !busy && active(Math.sign(dy))){ last=0; go(Math.sign(dy)); } }, {passive:true});
+  addEventListener("keydown", e=>{
+    const k=e.key, dir = (k==="ArrowDown"||k==="PageDown"||(k===" "&&!e.shiftKey)) ? 1 : (k==="ArrowUp"||k==="PageUp"||(k===" "&&e.shiftKey)) ? -1 : 0;
+    if(!dir || !active(dir) || /input|textarea|select/i.test(document.activeElement?.tagName||"")) return;
+    e.preventDefault(); if(!busy){ last=0; go(dir); }
+  });
+  return {go, stopsY};
+})();
+window.__stepper = stepper;
 
 /* ---------- trilho ---------- */
 const rail = document.getElementById("rail");
