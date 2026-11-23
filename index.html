@@ -78,13 +78,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   radial-gradient(circle at 70% 90%,rgba(255,170,90,.22),transparent 55%),
   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .78 0 0 0 0 .55 0 0 0 0 .25 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),#FFE1A1}
 #beach .sea{position:absolute;right:0;top:0;height:100%;width:min(46vw,620px);transform:translateX(var(--tide,0%))}
-#beach .water{fill:#12CFE0;opacity:1}
+#beach .water{fill:#46E3EC;opacity:1}
 #beach .foam{fill:none;stroke:#fff;stroke-width:9;stroke-linecap:round;opacity:.9;filter:drop-shadow(0 0 6px #fff)}
 #beach .sun{position:absolute;z-index:1;left:max(-60px,-4vw);top:-14vh;width:min(30vw,340px);aspect-ratio:1;border-radius:50%;background:#FFD23F;box-shadow:0 0 0 22px rgba(255,210,63,.28),0 0 0 54px rgba(255,210,63,.14);animation:sunp 6s ease-in-out infinite}
 @keyframes sunp{50%{box-shadow:0 0 0 30px rgba(255,210,63,.24),0 0 0 70px rgba(255,210,63,.1)}}
 @media (max-width:899px){#beach .sun{left:-18vw;top:-6vh;width:50vw}}
 #beach .umbrella{position:absolute;left:28%;top:-18%;width:70vh;height:70vh;border-radius:50%;background:radial-gradient(closest-side,rgba(150,80,20,.16),rgba(150,80,20,.1) 70%,transparent);filter:blur(6px)}
-@media (max-width:899px){#beach .sea{width:60vw}#beach .umbrella{left:-20%}}
+@media (max-width:899px){#beach .sea{width:60vw}}
+#beach .umbrella{display:none}
 #runway{background:#D6CFC2}
 #runway .eiffel{position:absolute;left:calc(var(--rx,50%) - min(18vw,170px) - 13vw);bottom:0;height:88vh;transform:translateX(-50%);fill:#BDB2A1}
 @media (max-width:899px){#runway .eiffel{height:62vh;left:22vw;opacity:.7}}
@@ -101,7 +102,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   box-shadow:inset 0 0 40px rgba(0,0,0,.25)}
 .shoe img{position:absolute;inset:0;width:100%;height:100%;display:block;-webkit-user-drag:none;user-select:none}
 .shoe .v{position:absolute;inset:0;opacity:0}
-.shoe .sh{filter:brightness(0) blur(16px);opacity:.32;transform:translate3d(var(--shx,22px),var(--shy,34px),-40px)}
+.shoe .sh{filter:brightness(0) invert(var(--shi,0)) blur(16px);opacity:var(--sho,.32);transform:translate3d(calc(var(--shx,22px)*var(--shk,1)),calc(var(--shy,34px)*var(--shk,1)),-40px)}
 .shoe .side{position:absolute;inset:0;transform:translateZ(var(--z));background:var(--edge);filter:brightness(.72);-webkit-mask:var(--m) center/100% 100% no-repeat;mask:var(--m) center/100% 100% no-repeat}
 .shoe .tint{isolation:isolate}
 .shoe .tint i{position:absolute;inset:0;background:var(--top);mix-blend-mode:multiply;-webkit-mask:var(--m) center/100% 100% no-repeat;mask:var(--m) center/100% 100% no-repeat}
@@ -545,6 +546,8 @@ showBeat("4-2",s5+6.2,1.6);
 const s6 = 5*L;
 yearIn(5,s6);
 colorsTo(C[5], s6, .9); face("top-amarela", s6, .9);
+// no verão a sombra vira um brilho claro e curto (pedido dele: areia de dia, nada de sombra pesada)
+tl.fromTo(sandal,{"--shi":0,"--sho":.32,"--shk":1},{"--shi":1,"--sho":.7,"--shk":.35,duration:.9},s6);
 tl.to("#beach",{opacity:1,duration:.8},s6).to("#beach",{opacity:0,duration:.6},s6+L-.6);
 tl.set(move,{y:"-70%",rotation:-14,scale:1.1},s6);
 tl.to(move,{y:"0%",rotation:-6,scale:1,duration:1.6,ease:"bounce.out"},s6+.2);
