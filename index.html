@@ -74,15 +74,16 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .year{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--f-d);font-weight:800;font-size:min(36vw,62vh);letter-spacing:-.06em;line-height:.8;white-space:nowrap;opacity:0;color:rgba(255,255,255,.08)}
 #runway{z-index:2;opacity:0}
 #beach{z-index:2;opacity:0;background:
-  radial-gradient(circle at 20% 30%,rgba(255,255,255,.18),transparent 40%),
-  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .33 0 0 0 0 .15 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),#EBD3A2}
+  radial-gradient(circle at 8% 4%,rgba(255,250,225,.95),rgba(255,236,170,.35) 32%,transparent 60%),
+  radial-gradient(circle at 70% 90%,rgba(255,170,90,.22),transparent 55%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .78 0 0 0 0 .55 0 0 0 0 .25 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),#FFE1A1}
 #beach .sea{position:absolute;right:0;top:0;height:100%;width:min(46vw,620px);transform:translateX(var(--tide,0%))}
-#beach .water{fill:#2CC3CF;opacity:.92}
+#beach .water{fill:#12CFE0;opacity:1}
 #beach .foam{fill:none;stroke:#fff;stroke-width:9;stroke-linecap:round;opacity:.9;filter:drop-shadow(0 0 6px #fff)}
 #beach .sun{position:absolute;z-index:1;left:max(-60px,-4vw);top:-14vh;width:min(30vw,340px);aspect-ratio:1;border-radius:50%;background:#FFD23F;box-shadow:0 0 0 22px rgba(255,210,63,.28),0 0 0 54px rgba(255,210,63,.14);animation:sunp 6s ease-in-out infinite}
 @keyframes sunp{50%{box-shadow:0 0 0 30px rgba(255,210,63,.24),0 0 0 70px rgba(255,210,63,.1)}}
 @media (max-width:899px){#beach .sun{left:-18vw;top:-6vh;width:50vw}}
-#beach .umbrella{position:absolute;left:28%;top:-18%;width:70vh;height:70vh;border-radius:50%;background:radial-gradient(closest-side,rgba(60,40,10,.28),rgba(60,40,10,.18) 70%,transparent);filter:blur(6px)}
+#beach .umbrella{position:absolute;left:28%;top:-18%;width:70vh;height:70vh;border-radius:50%;background:radial-gradient(closest-side,rgba(150,80,20,.16),rgba(150,80,20,.1) 70%,transparent);filter:blur(6px)}
 @media (max-width:899px){#beach .sea{width:60vw}#beach .umbrella{left:-20%}}
 #runway{background:#D6CFC2}
 #runway .eiffel{position:absolute;left:calc(var(--rx,50%) - min(18vw,170px) - 13vw);bottom:0;height:88vh;transform:translateX(-50%);fill:#BDB2A1}
@@ -365,7 +366,7 @@ const C = [
   {name:"verde e amarelo", label:"1998",  top:"#2E9E4F", edge:"#1E7A3A", strap:"#0B7A3B", bg:"#00843D", ink:"#FFE45C", year:"rgba(255,213,0,.13)",  print:0, flag:1},
   {name:"preto",           label:"1999",  top:"#1A1A1A", edge:"#000000", strap:"#1A1A1A", bg:"#EFEAE1", ink:"#141414", year:"rgba(0,0,0,.06)",       print:0, flag:0},
   {name:"estampa da mata", label:"2004",  top:"#8CC63F", edge:"#145A32", strap:"#145A32", bg:"#0E3B26", ink:"#F1F7E8", year:"rgba(140,198,63,.12)",  print:1, flag:0},
-  {name:"verão",           label:"hoje",  top:"#FFC21A", edge:"#E8A400", strap:"#F7A21B", bg:"#EBD3A2", ink:"#3A2A12", year:"rgba(255,255,255,.35)", print:0, flag:0},
+  {name:"verão",           label:"hoje",  top:"#FFC21A", edge:"#E8A400", strap:"#F7A21B", bg:"#FFE1A1", ink:"#3A2208", year:"rgba(255,140,40,.16)", print:0, flag:0},
 ];
 
 /* ---------- leques ---------- */
