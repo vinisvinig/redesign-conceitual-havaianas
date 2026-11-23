@@ -79,6 +79,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 #beach .sea{position:absolute;right:0;top:0;height:100%;width:min(46vw,620px);transform:translateX(var(--tide,0%))}
 #beach .water{fill:#2CC3CF;opacity:.92}
 #beach .foam{fill:none;stroke:#fff;stroke-width:9;stroke-linecap:round;opacity:.9;filter:drop-shadow(0 0 6px #fff)}
+#beach .sun{position:absolute;z-index:1;left:max(-60px,-4vw);top:-14vh;width:min(30vw,340px);aspect-ratio:1;border-radius:50%;background:#FFD23F;box-shadow:0 0 0 22px rgba(255,210,63,.28),0 0 0 54px rgba(255,210,63,.14);animation:sunp 6s ease-in-out infinite}
+@keyframes sunp{50%{box-shadow:0 0 0 30px rgba(255,210,63,.24),0 0 0 70px rgba(255,210,63,.1)}}
+@media (max-width:899px){#beach .sun{left:-18vw;top:-6vh;width:50vw}}
 #beach .umbrella{position:absolute;left:28%;top:-18%;width:70vh;height:70vh;border-radius:50%;background:radial-gradient(closest-side,rgba(60,40,10,.28),rgba(60,40,10,.18) 70%,transparent);filter:blur(6px)}
 @media (max-width:899px){#beach .sea{width:60vw}#beach .umbrella{left:-20%}}
 #runway{background:#D6CFC2}
@@ -194,7 +197,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .p-copy{top:12vh}
   .pstage{left:50%;bottom:6vh}
   .pblade{--h:min(44vh,74vw)}
-  #hero .sun{right:-6vw;top:4vh}
+  #hero .sun{right:-14vw;top:auto;bottom:24vh;width:62vw}
 }
 </style>
 </head>
@@ -266,6 +269,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   <div class="year" data-y="5">hoje</div>
 </div>
 <div class="fixed" id="beach" aria-hidden="true">
+  <div class="sun"></div>
   <div class="umbrella"></div>
   <svg class="sea" viewBox="0 0 400 1000" preserveAspectRatio="none"><path class="water" d="M400 0H170C150 80 205 160 175 250S140 420 180 520 150 700 175 800 150 940 168 1000H400Z"/><path class="foam" d="M170 0C150 80 205 160 175 250S140 420 180 520 150 700 175 800 150 940 168 1000"/></svg>
 </div>
